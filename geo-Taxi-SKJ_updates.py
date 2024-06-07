@@ -25,13 +25,22 @@ def main():
   city_name = input("Enter city name (default: New York): ") or "New York"
   num_taxis = int(input("Enter number of taxis (default: 5): ") or 5)
   
-  with open("taxi_locations.log", "a") as log_file:  # Open file for appending logs
+  # Open the log file in 'a' (append) mode outside the loop for efficiency
+  with open("taxi_locations.log", "a") as log_file:
     while True:
       taxi_geolocations = get_taxi_geolocations(num_taxis, city_name)
-      print(f"Taxi geolocations at {time.strftime('%Y-%m-%d %H:%M:%S')}: (City: {city_name})", file=log_file)
+      
+      # Print to console
+      print(f"Taxi geolocations at {time.strftime('%Y-%m-%d %H:%M:%S')}: (City: {city_name})")
       for geo in taxi_geolocations:
-        print(f"  Taxi {geo['taxi_id']}: Latitude {geo['latitude']}, Longitude {geo['longitude']}", file=log_file)
-      print("\nNext update in 90 seconds...\n", file=log_file)
+        print(f"  Taxi {geo['taxi_id']}: Latitude {geo['latitude']}, Longitude {geo['longitude']}")
+
+      # Print to log file (already opened outside the loop)
+      log_file.write(f"Taxi geolocations at {time.strftime('%Y-%m-%d %H:%M:%S')}: (City: {city_name})\n")
+      for geo in taxi_geolocations:
+        log_file.write(f"  Taxi {geo['taxi_id']}: Latitude {geo['latitude']}, Longitude {geo['longitude']}\n")
+      log_file.write("\nNext update in 90 seconds...\n\n")
+      
       time.sleep(90)
 
 if __name__ == "__main__":
