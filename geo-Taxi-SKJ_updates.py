@@ -2,7 +2,7 @@ import random
 import time
 from geopy.geocoders import Nominatim
 
-def generate_random_geolocation(city_name="New York"):
+def generate_random_geolocation(city_name="Kolkata"):
   """Generate a random geolocation within a plausible range around a city."""
   geolocator = Nominatim(user_agent="taxi_simulator")
   location = geolocator.geocode(city_name)
@@ -12,7 +12,7 @@ def generate_random_geolocation(city_name="New York"):
   longitude = location.longitude + longitude_delta
   return latitude, longitude
 
-def get_taxi_geolocations(num_taxis=5, city_name="New York"):
+def get_taxi_geolocations(num_taxis=5, city_name="Kolkata"):
   """Get geolocations for a specified number of taxis in a city."""
   taxis = []
   for i in range(num_taxis):
@@ -22,7 +22,7 @@ def get_taxi_geolocations(num_taxis=5, city_name="New York"):
 
 def main():
   """Main function to get geolocations every 90 seconds, with options."""
-  city_name = input("Enter city name (default: New York): ") or "New York"
+  city_name = input("Enter city name (default: Kolkata): ") or "Kolkata"
   num_taxis = int(input("Enter number of taxis (default: 5): ") or 5)
   
   # Open the log file in 'a' (append) mode outside the loop for efficiency
@@ -34,6 +34,7 @@ def main():
       print(f"Taxi geolocations at {time.strftime('%Y-%m-%d %H:%M:%S')}: (City: {city_name})")
       for geo in taxi_geolocations:
         print(f"  Taxi {geo['taxi_id']}: Latitude {geo['latitude']}, Longitude {geo['longitude']}")
+        print(f"\nNext update in 90 seconds...\n\n")
 
       # Print to log file (already opened outside the loop)
       log_file.write(f"Taxi geolocations at {time.strftime('%Y-%m-%d %H:%M:%S')}: (City: {city_name})\n")
